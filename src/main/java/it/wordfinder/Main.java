@@ -11,8 +11,12 @@ import java.util.regex.Pattern;
 public class Main {
 
 	public static void main ( String[] args ) {
-		var filePath = "C:\\dev\\word_finder\\src\\main\\resources\\dictionary.txt";
-		var regex = "^f[ercmaoth]{8}$";
+		var filePath = "src/main/resources/dictionary.txt";
+		var numberOfTotalChar = 5;
+		var initialCharacter = 'f';
+		var onlyPossibleChars = "ihagmoer";
+		numberOfTotalChar--;
+		var regex = "^" + initialCharacter + "[" + onlyPossibleChars + "]{" + numberOfTotalChar + "}$";
 
 		List<String> lines = new ArrayList<> ();
 
@@ -22,15 +26,18 @@ public class Main {
 				lines.add ( line );
 			}
 		} catch ( IOException e ) {
-			e.printStackTrace ();
+			System.out.println ( "Error while loading memory db, debug for more infos." );
 		}
 
+		var found = 0;
 		var pattern = Pattern.compile ( regex );
 		for ( var line : lines ) {
 			var matcher = pattern.matcher ( line );
 			while ( matcher.find () ) {
-				System.out.println ( matcher.group () );
+				found++;
+				System.out.print ( matcher.group () + " " );
 			}
 		}
+		System.out.println ( "\nFound: " + found );
 	}
 }

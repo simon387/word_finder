@@ -11,10 +11,12 @@ import java.util.regex.Pattern;
 public class Main {
 
 	public static void main ( String[] args ) {
-		var filePath = "src/main/resources/dictionary.txt";
-		var numberOfTotalChar = 5;
-		var initialCharacter = 'f';
-		var onlyPossibleChars = "ihagmoer";
+		findWords ( 9, 'd', "dionitlcdtla" );
+	}
+
+	@SuppressWarnings ( "all" )
+	private static void findWords ( int numberOfTotalChar, final char initialCharacter, final String onlyPossibleChars ) {
+		final var filePath = "src/main/resources/dictionary.txt";
 		numberOfTotalChar--;
 		var regex = "^" + initialCharacter + "[" + onlyPossibleChars + "]{" + numberOfTotalChar + "}$";
 
@@ -26,7 +28,8 @@ public class Main {
 				lines.add ( line );
 			}
 		} catch ( IOException e ) {
-			System.out.println ( "Error while loading memory db, debug for more infos." );
+			System.err.println ( "Error while loading inmemory db, debug for more infos." );
+			return;
 		}
 
 		var found = 0;

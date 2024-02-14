@@ -16,21 +16,20 @@ public class Main {
 	private static final String DICTIONARY_FILE_PATH = "src/main/resources/dictionary.txt";
 
 	public static void main ( String[] args ) {
-		System.out.println ( "\n\nFound words: " + findWords ( 9, 'c', "aeinrt" ) );
+		try {
+			System.out.println ( "\n\nFound words: " + findWords ( 9, 'c', "aeinrt" ) );
+		} catch ( IOException e ) {
+			error ( "Error while loading inmemory db, debug for more infos." );
+		}
 	}
 
 	@SuppressWarnings ( "all" )
-	private static int findWords ( final int numberOfTotalChar, final char initialCharacter, final String onlyPossibleChars ) {
+	private static int findWords ( final int numberOfTotalChar, final char initialCharacter, final String onlyPossibleChars ) throws IOException {
 		if ( onlyPossibleChars.length () > numberOfTotalChar ) {
 			return error ( "Inconsistent data" );
 		}
 
-		List<String> linesFromDB = null;
-		try {
-			linesFromDB = loadDatabase ();
-		} catch ( IOException e ) {
-			return error ( "Error while loading inmemory db, debug for more infos." );
-		}
+		var linesFromDB = loadDatabase ();
 
 		var pattern = Pattern.compile ( "^" + initialCharacter + "[" + onlyPossibleChars + "]{" + ( numberOfTotalChar - 1 ) + "}$" );
 		var found = 0;

@@ -10,37 +10,58 @@ import java.util.regex.Pattern;
 
 public class Main {
 
+	private static final int MAX_OUTPUT_BUFFER_SIZE = 224;
+
+	private static final String DICTIONARY_FILE_PATH = "src/main/resources/dictionary.txt";
+
 	public static void main ( String[] args ) {
-		findWords ( 9, 'd', "dionitlcdtla" );
+		System.out.println ( "\n\nFound words: " + findWords ( 9, 'a', "raciod" ) );
 	}
 
 	@SuppressWarnings ( "all" )
-	private static void findWords ( int numberOfTotalChar, final char initialCharacter, final String onlyPossibleChars ) {
-		final var filePath = "src/main/resources/dictionary.txt";
-		numberOfTotalChar--;
-		var regex = "^" + initialCharacter + "[" + onlyPossibleChars + "]{" + numberOfTotalChar + "}$";
+	private static int findWords ( final int numberOfTotalChar, final char initialCharacter, final String onlyPossibleChars ) {
+		if ( onlyPossibleChars.length () > numberOfTotalChar ) {
+			return error ( "Inconsistent data" );
+		}
 
+		List<String> linesFromDB = null;
+		try {
+			linesFromDB = loadDatabase ();
+		} catch ( IOException e ) {
+			return error ( "Error while loading inmemory db, debug for more infos." );
+		}
+
+		var pattern = Pattern.compile ( "^" + initialCharacter + "[" + onlyPossibleChars + "]{" + ( numberOfTotalChar - 1 ) + "}$" );
+		var found = 0;
+		var lineCharCounter = 0;
+		for ( var line : linesFromDB ) {
+			final var matcher = pattern.matcher ( line );
+			while ( matcher.find () ) {
+				found++;
+				System.out.print ( matcher.group () + " " );
+				lineCharCounter += 1 + numberOfTotalChar;
+				if ( lineCharCounter >= MAX_OUTPUT_BUFFER_SIZE - numberOfTotalChar ) {
+					System.out.println ();
+					lineCharCounter = 0;
+				}
+			}
+		}
+		return found;
+	}
+
+	private static List<String> loadDatabase () throws IOException {
 		List<String> lines = new ArrayList<> ();
-
-		try ( var reader = new BufferedReader ( new FileReader ( filePath ) ) ) {
+		try ( var reader = new BufferedReader ( new FileReader ( DICTIONARY_FILE_PATH ) ) ) {
 			String line;
 			while ( ( line = reader.readLine () ) != null ) {
 				lines.add ( line );
 			}
-		} catch ( IOException e ) {
-			System.err.println ( "Error while loading inmemory db, debug for more infos." );
-			return;
 		}
+		return lines;
+	}
 
-		var found = 0;
-		var pattern = Pattern.compile ( regex );
-		for ( var line : lines ) {
-			var matcher = pattern.matcher ( line );
-			while ( matcher.find () ) {
-				found++;
-				System.out.print ( matcher.group () + " " );
-			}
-		}
-		System.out.println ( "\nFound: " + found );
+	private static int error ( final String message ) {
+		System.err.println ( message );
+		return -1;
 	}
 }

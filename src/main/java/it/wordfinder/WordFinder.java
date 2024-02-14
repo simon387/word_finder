@@ -19,7 +19,7 @@ public class WordFinder {
 		System.out.println ( "\n\nFound words: " + findWords ( 9, 'u', "xxxx" ) );
 	}
 
-	@SuppressWarnings ( "all" )
+	@SuppressWarnings ( "SameParameterValue" )
 	private static int findWords ( final int numberOfTotalChar, final char initialCharacter, final String onlyPossibleChars ) {
 		if ( onlyPossibleChars.length () > numberOfTotalChar ) {
 			return error ( "Inconsistent data" );

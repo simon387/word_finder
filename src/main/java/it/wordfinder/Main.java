@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
@@ -15,7 +16,7 @@ public class Main {
 	private static final String DICTIONARY_FILE_PATH = "src/main/resources/dictionary.txt";
 
 	public static void main ( String[] args ) {
-		System.out.println ( "\n\nFound words: " + findWords ( 9, 'a', "raciod" ) );
+		System.out.println ( "\n\nFound words: " + findWords ( 9, 'c', "aeinrt" ) );
 	}
 
 	@SuppressWarnings ( "all" )
@@ -38,12 +39,7 @@ public class Main {
 			final var matcher = pattern.matcher ( line );
 			while ( matcher.find () ) {
 				found++;
-				System.out.print ( matcher.group () + " " );
-				lineCharCounter += 1 + numberOfTotalChar;
-				if ( lineCharCounter >= MAX_OUTPUT_BUFFER_SIZE - numberOfTotalChar ) {
-					System.out.println ();
-					lineCharCounter = 0;
-				}
+				lineCharCounter = formatOutput ( matcher, lineCharCounter, numberOfTotalChar );
 			}
 		}
 		return found;
@@ -58,6 +54,16 @@ public class Main {
 			}
 		}
 		return lines;
+	}
+
+	private static int formatOutput ( final Matcher matcher, final int lineCharCounter, final int numberOfTotalChar ) {
+		System.out.print ( matcher.group () + " " );
+		var newValue = lineCharCounter + 1 + numberOfTotalChar;
+		if ( lineCharCounter >= MAX_OUTPUT_BUFFER_SIZE - numberOfTotalChar * 2 ) {
+			System.out.println ();
+			newValue = 0;
+		}
+		return newValue;
 	}
 
 	private static int error ( final String message ) {

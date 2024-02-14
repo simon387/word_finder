@@ -16,15 +16,11 @@ public class Main {
 	private static final String DICTIONARY_FILE_PATH = "src/main/resources/dictionary.txt";
 
 	public static void main ( String[] args ) {
-		try {
-			System.out.println ( "\n\nFound words: " + findWords ( 9, 'c', "aeinrt" ) );
-		} catch ( IOException e ) {
-			error ( "Error while loading inmemory db, debug for more infos." );
-		}
+		System.out.println ( "\n\nFound words: " + findWords ( 9, 'c', "xxxx" ) );
 	}
 
 	@SuppressWarnings ( "all" )
-	private static int findWords ( final int numberOfTotalChar, final char initialCharacter, final String onlyPossibleChars ) throws IOException {
+	private static int findWords ( final int numberOfTotalChar, final char initialCharacter, final String onlyPossibleChars ) {
 		if ( onlyPossibleChars.length () > numberOfTotalChar ) {
 			return error ( "Inconsistent data" );
 		}
@@ -44,13 +40,16 @@ public class Main {
 		return found;
 	}
 
-	private static List<String> loadDatabase () throws IOException {
+	private static List<String> loadDatabase () {
 		List<String> lines = new ArrayList<> ();
 		try ( var reader = new BufferedReader ( new FileReader ( DICTIONARY_FILE_PATH ) ) ) {
 			String line;
 			while ( ( line = reader.readLine () ) != null ) {
 				lines.add ( line );
 			}
+		} catch ( IOException e ) {
+			error ( "Error while loading inmemory db, debug for more infos." );
+			throw new RuntimeException ( e );
 		}
 		return lines;
 	}

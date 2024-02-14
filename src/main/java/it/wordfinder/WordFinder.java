@@ -9,14 +9,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class Main {
+public class WordFinder {
 
 	private static final int MAX_OUTPUT_BUFFER_SIZE = 224;
 
 	private static final String DICTIONARY_FILE_PATH = "src/main/resources/dictionary.txt";
 
 	public static void main ( String[] args ) {
-		System.out.println ( "\n\nFound words: " + findWords ( 9, 'c', "xxxx" ) );
+		System.out.println ( "\n\nFound words: " + findWords ( 9, 'u', "xxxx" ) );
 	}
 
 	@SuppressWarnings ( "all" )

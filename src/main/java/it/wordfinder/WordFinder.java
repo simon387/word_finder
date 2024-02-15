@@ -27,6 +27,7 @@ public class WordFinder {
 
 		var linesFromDB = loadDatabase ();
 
+		@SuppressWarnings ( "all" )
 		var pattern = Pattern.compile ( "^" + initialCharacter + "[" + onlyPossibleChars + "]{" + ( numberOfTotalChar - 1 ) + "}$" );
 		var found = 0;
 		var lineCharCounter = 0;

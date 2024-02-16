@@ -16,12 +16,12 @@ public class WordFinder {
 	private static final String DICTIONARY_FILE_PATH = "src/main/resources/dictionary.txt";
 
 	public static void main ( String[] args ) {
-		System.out.println ( "\n\nFound words: " + findWords ( 9, 'u', "xxxx" ) );
+		System.out.println ( "\n\nFound words: " + findWords ( 8, 't', "tetagoapreogitri" ) );
 	}
 
 	@SuppressWarnings ( "SameParameterValue" )
 	private static int findWords ( final int numberOfTotalChar, final char initialCharacter, final String onlyPossibleChars ) {
-		if ( onlyPossibleChars.length () > numberOfTotalChar ) {
+		if ( onlyPossibleChars.length () < numberOfTotalChar ) {
 			return error ( "Inconsistent data" );
 		}
 

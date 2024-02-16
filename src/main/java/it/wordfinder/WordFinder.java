@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,14 +22,15 @@ public class WordFinder {
 
 	@SuppressWarnings ( "SameParameterValue" )
 	private static int findWords ( final int numberOfTotalChar, final char initialCharacter, final String onlyPossibleChars ) {
-		if ( onlyPossibleChars.length () < numberOfTotalChar ) {
+		final var filteredOnlyPossibleChars = removeDuplicatesChars ( onlyPossibleChars );
+		if ( filteredOnlyPossibleChars.length () < numberOfTotalChar ) {
 			return error ( "Inconsistent data" );
 		}
 
 		var linesFromDB = loadDatabase ();
 
 		@SuppressWarnings ( "all" )
-		var pattern = Pattern.compile ( "^" + initialCharacter + "[" + onlyPossibleChars + "]{" + ( numberOfTotalChar - 1 ) + "}$" );
+		var pattern = Pattern.compile ( "^" + initialCharacter + "[" + filteredOnlyPossibleChars + "]{" + ( numberOfTotalChar - 1 ) + "}$" );
 		var found = 0;
 		var lineCharCounter = 0;
 		for ( var line : linesFromDB ) {
@@ -63,6 +65,18 @@ public class WordFinder {
 			newValue = 0;
 		}
 		return newValue;
+	}
+
+	private static String removeDuplicatesChars ( String str ) {
+		LinkedHashSet<Character> set = new LinkedHashSet<> ();
+		for ( int i = 0; i < str.length (); i++ ) {
+			set.add ( str.charAt ( i ) );
+		}
+		StringBuilder sb = new StringBuilder ();
+		for ( Character ch : set ) {
+			sb.append ( ch );
+		}
+		return sb.toString ();
 	}
 
 	private static int error ( final String message ) {

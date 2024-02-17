@@ -19,8 +19,7 @@ public class WordFinder {
 		var numberOfTotalChar = 8;
 		var initialChar = 't';
 		var onlyPossibleChars = "tetagoapreogitri"; // but not all mandatories
-		var words = findWords ( numberOfTotalChar, initialChar, onlyPossibleChars );
-		formatOutput ( words );
+		formatOutput ( findWords ( numberOfTotalChar, initialChar, onlyPossibleChars ) );
 	}
 
 	private static List<String> findWords ( final int numberOfTotalChar, final char initialCharacter, final String onlyPossibleChars ) {

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 
-public class WordFinder {
+public final class WordFinder {
 
 	private static final int MAX_OUTPUT_BUFFER_SIZE = 224;
 

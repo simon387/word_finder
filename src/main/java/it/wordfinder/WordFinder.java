@@ -16,19 +16,15 @@ public final class WordFinder {
 	private static final String DICTIONARY_FILE_PATH = "src/main/resources/dictionary.txt";
 
 	public static void main ( String[] args ) {
-		var numberOfTotalChar = 8;
-		var initialChar = 't';
-		var onlyPossibleChars = "tetagoapreogitri"; // but not all mandatories
+		var numberOfTotalChar = 6;
+		var initialChar = 'a';
+		var onlyPossibleChars = "agenda"; // but not all mandatories
 		formatOutput ( findWords ( numberOfTotalChar, initialChar, onlyPossibleChars ) );
 	}
 
 	private static List<String> findWords ( final int numberOfTotalChar, final char initialCharacter, final String onlyPossibleChars ) {
 		List<String> words = new ArrayList<> ();
 		final var filteredOnlyPossibleChars = removeDuplicatesChars ( onlyPossibleChars );
-		if ( filteredOnlyPossibleChars.length () < numberOfTotalChar ) {
-			error ( "Inconsistent data" );
-			return words;
-		}
 
 		var linesFromDB = loadDatabase ();
 
@@ -51,7 +47,7 @@ public final class WordFinder {
 				lines.add ( line );
 			}
 		} catch ( IOException e ) {
-			error ( "Error while loading inmemory db, debug for more infos." );
+			System.err.println ( "Error while loading inmemory db, debug for more infos." );
 			throw new RuntimeException ( e );
 		}
 		return lines;
@@ -88,7 +84,4 @@ public final class WordFinder {
 		return sb.toString ();
 	}
 
-	private static void error ( final String message ) {
-		System.err.println ( message );
-	}
 }

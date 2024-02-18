@@ -23,14 +23,14 @@ public final class WordFinder {
 	}
 
 	private static List<String> findWords ( final int numberOfTotalChar, final char initialCharacter, final String onlyPossibleChars ) {
-		List<String> words = new ArrayList<> ();
+		final List<String> words = new ArrayList<> ();
 		final var filteredOnlyPossibleChars = removeDuplicatesChars ( onlyPossibleChars );
 
-		var linesFromDB = loadDatabase ();
+		final var linesFromDB = loadDatabase ();
 
 		@SuppressWarnings ( "all" )
-		var pattern = Pattern.compile ( "^" + initialCharacter + "[" + filteredOnlyPossibleChars + "]{" + ( numberOfTotalChar - 1 ) + "}$" );
-		for ( var lineFromDB : linesFromDB ) {
+		final var pattern = Pattern.compile ( "^" + initialCharacter + "[" + filteredOnlyPossibleChars + "]{" + ( numberOfTotalChar - 1 ) + "}$" );
+		for ( final var lineFromDB : linesFromDB ) {
 			final var matcher = pattern.matcher ( lineFromDB );
 			if ( matcher.find () ) {
 				words.add ( lineFromDB );
@@ -40,8 +40,8 @@ public final class WordFinder {
 	}
 
 	private static List<String> loadDatabase () {
-		List<String> lines = new ArrayList<> ();
-		try ( var reader = new BufferedReader ( new FileReader ( DICTIONARY_FILE_PATH ) ) ) {
+		final List<String> lines = new ArrayList<> ();
+		try ( final var reader = new BufferedReader ( new FileReader ( DICTIONARY_FILE_PATH ) ) ) {
 			String line;
 			while ( ( line = reader.readLine () ) != null ) {
 				lines.add ( line );
@@ -53,9 +53,9 @@ public final class WordFinder {
 		return lines;
 	}
 
-	private static void formatOutput ( List<String> words ) {
+	private static void formatOutput ( final List<String> words ) {
 		var lineCharCounter = 0;
-		for ( var word : words ) {
+		for ( final var word : words ) {
 			lineCharCounter = formatOutputHelper ( word, lineCharCounter );
 		}
 		System.out.println ( "\n\nFound words: " + words.size () );
@@ -64,21 +64,21 @@ public final class WordFinder {
 	private static int formatOutputHelper ( final String word, final int lineCharCounter ) {
 		System.out.print ( word + " " );
 		final var numberOfTotalChar = word.length ();
-		var newValueLineCharCounter = lineCharCounter + 1 + numberOfTotalChar;
 		if ( lineCharCounter >= MAX_OUTPUT_BUFFER_SIZE - numberOfTotalChar * 2 ) {
 			System.out.println ();
-			newValueLineCharCounter = 0;
+			return 0;
+		} else {
+			return lineCharCounter + 1 + numberOfTotalChar;
 		}
-		return newValueLineCharCounter;
 	}
 
-	private static String removeDuplicatesChars ( String str ) {
-		LinkedHashSet<Character> set = new LinkedHashSet<> ();
+	private static String removeDuplicatesChars ( final String str ) {
+		final LinkedHashSet<Character> set = new LinkedHashSet<> ();
 		for ( int i = 0; i < str.length (); i++ ) {
 			set.add ( str.charAt ( i ) );
 		}
 		StringBuilder sb = new StringBuilder ();
-		for ( Character ch : set ) {
+		for ( final Character ch : set ) {
 			sb.append ( ch );
 		}
 		return sb.toString ();

@@ -16,9 +16,9 @@ public final class WordFinder {
 	private static final String DICTIONARY_FILE_PATH = "src/main/resources/dictionary.txt";
 
 	public static void main ( String[] args ) {
-		var wordLength = 7;
-		var initialChar = 's';
-		var onlyPossibleChars = "egnolaspueerar"; // but not all mandatories
+		var wordLength = 9;
+		var initialChar = 'a';
+		var onlyPossibleChars = "pcsieosatrita"; // but not all mandatories
 		formatOutput ( findWords ( wordLength, initialChar, onlyPossibleChars ) );
 	}
 

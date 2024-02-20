@@ -16,21 +16,17 @@ public final class WordFinder {
 	private static final String DICTIONARY_FILE_PATH = "src/main/resources/dictionary.txt";
 
 	public static void main ( String[] args ) {
-		var numberOfTotalChar = 7;
+		var wordLength = 7;
 		var initialChar = 's';
 		var onlyPossibleChars = "egnolaspueerar"; // but not all mandatories
-		formatOutput ( findWords ( numberOfTotalChar, initialChar, onlyPossibleChars ) );
+		formatOutput ( findWords ( wordLength, initialChar, onlyPossibleChars ) );
 	}
 
-	private static List<String> findWords ( final int numberOfTotalChar, final char initialCharacter, final String onlyPossibleChars ) {
+	private static List<String> findWords ( final int wordLength, final char initialChar, final String onlyPossibleChars ) {
 		final List<String> words = new ArrayList<> ();
-		final var filteredOnlyPossibleChars = removeDuplicatesChars ( onlyPossibleChars );
-
-		final var linesFromDB = loadDatabase ();
-
 		@SuppressWarnings ( "all" )
-		final var pattern = Pattern.compile ( "^" + initialCharacter + "[" + filteredOnlyPossibleChars + "]{" + ( numberOfTotalChar - 1 ) + "}$" );
-		for ( final var lineFromDB : linesFromDB ) {
+		final var pattern = Pattern.compile ( "^" + initialChar + "[" + removeDuplicatesChars ( onlyPossibleChars ) + "]{" + ( wordLength - 1 ) + "}$" );
+		for ( final var lineFromDB : loadDatabase () ) {
 			final var matcher = pattern.matcher ( lineFromDB );
 			if ( matcher.find () ) {
 				words.add ( lineFromDB );

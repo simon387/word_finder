@@ -16,10 +16,10 @@ public final class WordFinder {
 	private static final String DICTIONARY_FILE_PATH = "src/main/resources/dictionary.txt";
 
 	public static void main ( String[] args ) {
-		var wordLength = 9;
+		var wordLength = 8;
 		var initialChar = 'a';
-		var onlyPossibleChars = "pcsieosatrita"; // but not all mandatories
-		formatOutput ( findWords ( wordLength, initialChar, onlyPossibleChars ) );
+		var onlyPossibleChars = "oteoainnsgsnubimoet"; // but not all mandatories // copy the exaxct values from g
+		formatOutput ( findWords ( wordLength, initialChar, onlyPossibleChars.toLowerCase () ) );
 	}
 
 	private static List<String> findWords ( final int wordLength, final char initialChar, final String onlyPossibleChars ) {
@@ -28,7 +28,7 @@ public final class WordFinder {
 		final var pattern = Pattern.compile ( "^" + initialChar + "[" + removeDuplicatesChars ( onlyPossibleChars ) + "]{" + ( wordLength - 1 ) + "}$" );
 		for ( final var lineFromDB : loadDatabase () ) {
 			final var matcher = pattern.matcher ( lineFromDB );
-			if ( matcher.find () ) {
+			if ( matcher.find () && compareCountChars ( lineFromDB, onlyPossibleChars ) ) {
 				words.add ( lineFromDB );
 			}
 		}
@@ -78,6 +78,28 @@ public final class WordFinder {
 			sb.append ( ch );
 		}
 		return sb.toString ();
+	}
+
+	private static boolean compareCountChars ( final String fromDB, final String fromInput ) {
+		final int[] fromDBCounters = countChars ( fromDB );
+		final int[] fromInputCounters = countChars ( fromInput );
+		for ( var i = 0; i < 26; i++ ) {
+			if ( fromDBCounters[i] > fromInputCounters[i] ) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private static int[] countChars ( final String input ) {
+		final var counts = new int[26];
+		for ( var i = 0; i < input.length (); i++ ) {
+			final var character = input.charAt ( i );
+			if ( character >= 'a' && character <= 'z' ) {
+				counts[character - 'a']++;
+			}
+		}
+		return counts;
 	}
 
 }

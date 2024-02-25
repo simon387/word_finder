@@ -17,17 +17,17 @@ public final class WordFinder {
 
 	public static void main ( String[] args ) {
 		var wordLength = 7;
-		var initialChar = 'c';
+		var initialChars = "c".toLowerCase ();
 		var onlyPossibleChars = "eoficeietrprha".toLowerCase (); // but not all mandatories // copy the exaxct values from g
 		var lastChars = "".toLowerCase ();
-		formatOutput ( findWords ( wordLength, initialChar, onlyPossibleChars, lastChars ) );
+		formatOutput ( findWords ( wordLength, initialChars, onlyPossibleChars, lastChars ) );
 	}
 
-	private static List<String> findWords ( final int wordLength, final char initialChar, final String onlyPossibleChars, final String lastChars ) {
+	private static List<String> findWords ( final int wordLength, final String initialChars, final String onlyPossibleChars, final String lastChars ) {
 		final List<String> words = new ArrayList<> ();
-		final var posCharLen = wordLength - 1 - lastChars.length ();
+		final var posCharLen = wordLength - initialChars.length () - lastChars.length ();
 		@SuppressWarnings ( "all" )
-		final var pattern = Pattern.compile ( "^" + initialChar + "[" + removeDuplicatesChars ( onlyPossibleChars ) + "]{" + ( posCharLen ) + "}" + lastChars + "$" );
+		final var pattern = Pattern.compile ( "^" + initialChars + "[" + removeDuplicatesChars ( onlyPossibleChars ) + "]{" + ( posCharLen ) + "}" + lastChars + "$" );
 		for ( final var lineFromDB : loadDatabase () ) {
 			final var matcher = pattern.matcher ( lineFromDB );
 			if ( matcher.find () && compareCountChars ( lineFromDB, onlyPossibleChars ) ) {

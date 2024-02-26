@@ -16,9 +16,9 @@ public final class WordFinder {
 	private static final String DICTIONARY_FILE_PATH = "src/main/resources/dictionary.txt";
 
 	public static void main ( String[] args ) {
-		var wordLength = 7;
-		var initialChars = "c".toLowerCase ();
-		var onlyPossibleChars = "eoficeietrprha".toLowerCase (); // but not all mandatories // copy the exaxct values from g
+		var wordLength = 8;
+		var initialChars = "r".toLowerCase ();
+		var onlyPossibleChars = "ounreesuepoabmcrera".toLowerCase (); // but not all mandatories // copy the exaxct values from g
 		var lastChars = "".toLowerCase ();
 		formatOutput ( findWords ( wordLength, initialChars, onlyPossibleChars, lastChars ) );
 	}

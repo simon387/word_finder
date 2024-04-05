@@ -11,14 +11,14 @@ import java.util.regex.Pattern;
 
 public final class WordFinder {
 
-	private static final int MAX_OUTPUT_BUFFER_SIZE = 224;
+	private static final int MAX_OUTPUT_BUFFER_SIZE = 222;
 
 	private static final String DICTIONARY_FILE_PATH = "src/main/resources/dictionary.txt";
 
 	public static void main ( String[] args ) {
-		var wordLength = 7;
+		var wordLength = 8;
 		var initialChars = "c".toLowerCase ();
-		var onlyPossibleChars = "amotoocisaclal".toLowerCase (); // but not all mandatories // copy the exaxct values from g
+		var onlyPossibleChars = "trtoineaoulucsat".toLowerCase (); // but not all mandatories // copy the exaxct values from g
 		var lastChars = "".toLowerCase ();
 		formatOutput ( findWords ( wordLength, initialChars, onlyPossibleChars, lastChars ) );
 	}

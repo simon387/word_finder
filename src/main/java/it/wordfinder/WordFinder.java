@@ -15,19 +15,19 @@ public final class WordFinder {
 
 	private static final String DICTIONARY_FILE_PATH = "src/main/resources/dictionary.txt";
 
+	@SuppressWarnings ( "all" )
 	public static void main ( String[] args ) {
-		var wordLength = 7;
+		Integer wordLength = 7;
 		var initialChars = "s".toLowerCase ();
 		var onlyPossibleChars = "vannisqiste".toLowerCase (); // but not all mandatories // copy the exaxct values from g
 		var lastChars = "".toLowerCase ();
 		formatOutput ( findWords ( wordLength, initialChars, onlyPossibleChars, lastChars ) );
 	}
 
-	private static List<String> findWords ( final int wordLength, final String initialChars, final String onlyPossibleChars, final String lastChars ) {
+	private static List<String> findWords ( final Integer wordLength, final String initialChars, final String onlyPossibleChars, final String lastChars ) {
 		final List<String> words = new ArrayList<> ();
-		final var posCharLen = wordLength - initialChars.length () - lastChars.length ();
-		@SuppressWarnings ( "all" )
-		final var pattern = Pattern.compile ( "^" + initialChars + "[" + removeDuplicatesChars ( onlyPossibleChars ) + "]{" + ( posCharLen ) + "}" + lastChars + "$" );
+		final var posCharLen = wordLength != null ? "{" + ( wordLength - initialChars.length () - lastChars.length () ) + "}" : "+";
+		final var pattern = Pattern.compile ( "^" + initialChars + "[" + removeDuplicatesChars ( onlyPossibleChars ) + "]" + ( posCharLen ) + lastChars + "$" );
 		for ( final var lineFromDB : loadDatabase () ) {
 			final var matcher = pattern.matcher ( lineFromDB );
 			if ( matcher.find () && compareCountChars ( lineFromDB, onlyPossibleChars ) ) {

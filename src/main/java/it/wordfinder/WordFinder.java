@@ -17,9 +17,9 @@ public final class WordFinder {
 
 	@SuppressWarnings ( "all" )
 	public static void main ( String[] args ) {
-		Integer wordLength = 7;
+		Integer wordLength = 9;
 		var initialChars = "s".toLowerCase ();
-		var onlyPossibleChars = "vannisqiste".toLowerCase (); // but not all mandatories // copy the exaxct values from g
+		var onlyPossibleChars = "oaattiaolieeriuasar".toLowerCase (); // but not all mandatories // copy the exaxct values from g
 		var lastChars = "".toLowerCase ();
 		formatOutput ( findWords ( wordLength, initialChars, onlyPossibleChars, lastChars ) );
 	}
